@@ -23,6 +23,7 @@ return new class extends Migration
                     ->on('users')
                     ->onUpd('cascade')
                     ->onDelete('restrict');
+            $table->boolean('state');
             $table->timestamps();
         });
     }

@@ -13,7 +13,8 @@ class Reservation extends Model
         'date_arrive',
         'date_output',
         'Num_pers',
-        'user_id'
+        'user_id',
+        'state'
     ];
     
     public function user(){
