@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\RolCollection;
+use App\Http\Resources\UserCollection;
 use App\Http\Responses\ApiResponse;
-use App\Models\Rol;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class RolController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $roles = new RolCollection(Rol::all());
-        return ApiResponse::success('Listado de Roles con Usuarios',201, $roles);
+        $users = new UserCollection(User::all());
+        return ApiResponse::success('Listado de usuarios',201,$users);
     }
 
     /**
@@ -29,7 +29,7 @@ class RolController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Rol $rol)
+    public function show(string $id)
     {
         //
     }
@@ -37,7 +37,7 @@ class RolController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Rol $rol)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -45,7 +45,7 @@ class RolController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Rol $rol)
+    public function destroy(string $id)
     {
         //
     }
