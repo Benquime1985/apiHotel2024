@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Service_RoomCollection;
+use App\Http\Responses\ApiResponse;
 use App\Models\Service_Room;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ServiceRoomController extends Controller
@@ -12,7 +16,12 @@ class ServiceRoomController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $service__rooms = new Service_RoomCollection(Service_Room::all());
+            return ApiResponse::success('Listado de servicios de la habitacion',201,$service__rooms);
+        } catch (Exception $e){
+            return ApiResponse::error($e->getMessage(),500);
+        }
     }
 
     /**
@@ -26,9 +35,15 @@ class ServiceRoomController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Service_Room $service_Room)
+    public function show($id)
     {
-        //
+        try{
+            $service__room = new Service_RoomCollection(Service_Room::query()->where('id',$id)->get()); //select * from rols where id = $id;
+            if ($service__room->isEmpty()) throw new ModelNotFoundException("Servicios de la habitaccion no encontrado");
+            return ApiResponse::success( 'Información del servicios de la habitacion',200,$service__room);
+        }catch(ModelNotFoundException $e) {
+            return ApiResponse::error( 'No existe el servcio de la habiatacion solicitado',404);
+        }
     }
 
     /**

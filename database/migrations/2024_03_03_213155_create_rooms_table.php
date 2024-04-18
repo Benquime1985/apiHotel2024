@@ -22,7 +22,7 @@ return new class extends Migration
                     ->references('id')
                     ->on('reservations')
                     ->onUpd('cascade')
-                    ->onDelete('restrict');
+                    ->onDelete('cascade');
             $table->timestamps();
         });
     }

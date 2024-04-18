@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ServiceCollection;
+use App\Http\Responses\ApiResponse;
 use App\Models\Service;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -12,7 +16,12 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $services = new ServiceCollection(Service::all());
+            return ApiResponse::success('Listado de servicios',201,$services);
+        } catch (Exception $e){
+            return ApiResponse::error($e->getMessage(),500);
+        }
     }
 
     /**
@@ -26,9 +35,15 @@ class ServiceController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Service $service)
+    public function show($id)
     {
-        //
+        try{
+            $service = new ServiceCollection(Service::query()->where('id',$id)->get()); //select * from rols where id = $id;
+            if ($service->isEmpty()) throw new ModelNotFoundException("Servicio no encontrado");
+            return ApiResponse::success( 'Información del servicio',200,$service);
+        }catch(ModelNotFoundException $e) {
+            return ApiResponse::error( 'No existe el servcio solicitado',404);
+        }
     }
 
     /**

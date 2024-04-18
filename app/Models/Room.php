@@ -13,7 +13,9 @@ class Room extends Model
         'Num_room',
         'image',
         'description',
-        'price'
+        'price',
+        'reserv_id'
+        
     ];
 
     public function reservation(){

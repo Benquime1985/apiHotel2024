@@ -14,6 +14,16 @@ class RoomResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return[
+            'id'=>$this->id,
+            'room_numb'=>$this->room_numb,
+            'image'=>$this->image,
+            'description'=>$this->description,
+            'price'=>$this->price,
+            'reserv_id'=>$this->reserv_id,
+            'reservation'=>$this->reservations, //?No apararece la imformacion reparar mas tarde(No es necesario)
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+        ];
     }
 }

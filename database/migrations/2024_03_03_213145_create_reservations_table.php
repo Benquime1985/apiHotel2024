@@ -22,7 +22,7 @@ return new class extends Migration
                     ->references('id')
                     ->on('users')
                     ->onUpd('cascade')
-                    ->onDelete('restrict');
+                    ->onDelete('cascade');
             $table->boolean('state');
             $table->timestamps();
         });

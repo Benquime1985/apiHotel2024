@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\RolCollection;
-use App\Http\Responses\ApiResponse;
+use Exception;
 use App\Models\Rol;
 use Illuminate\Http\Request;
+use App\Http\Responses\ApiResponse;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\RolCollection;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
 
 class RolController extends Controller
 {
@@ -14,8 +18,12 @@ class RolController extends Controller
      */
     public function index()
     {
-        $roles = new RolCollection(Rol::all());
-        return ApiResponse::success('Listado de Roles con Usuarios',201, $roles);
+        try{
+            $roles = new RolCollection(Rol::all());
+            return ApiResponse::success('Listado de roles con usuarios',201, $roles);
+        } catch (Exception $e){
+            return ApiResponse::error('Error al obtener los roles',500);
+        }
     }
 
     /**
@@ -23,15 +31,29 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $request -> validate([
+                'name' => 'required|min:3|max:45',
+            ]);
+            $rol = Rol::create($request->all());
+            return ApiResponse::success("Se ha creado el rol correctamente", 200, $rol);
+        } catch(ValidationException $e){
+            return ApiResponse::error($e->getMessage(),404);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Rol $rol)
+    public function show($id)
     {
-        //
+        try{
+            $rol = new RolCollection(Rol::query()->where('id',$id)->get()); //select * from rols where id = $id;
+            if ($rol->isEmpty()) throw new ModelNotFoundException("Rol no encontrado");
+            return ApiResponse::success( 'Información del rol',200,$rol);
+        }catch(ModelNotFoundException $e) {
+            return ApiResponse::error( 'No existe el rol solicitado',404);
+        }
     }
 
     /**
