@@ -8,6 +8,7 @@ use App\Models\Reservation;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class ReservationController extends Controller
 {
@@ -29,7 +30,18 @@ class ReservationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $request -> validate([
+                'name' => 'required|min:3|max:45',
+                'date_arrive' => 'required',
+                'date_output' => 'required|',
+                'Num_pers' => 'required|min:1|max:2',
+            ]);
+            $reservation = Reservation::create($request->all());
+            return ApiResponse::success("Se ha creado la reservacion correctamente", 200, $reservation);
+        } catch(ValidationException $e){
+            return ApiResponse::error($e->getMessage(),404);
+        }
     }
 
     /**

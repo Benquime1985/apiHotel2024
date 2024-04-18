@@ -46,7 +46,9 @@ class UserController extends Controller
         }
     }*/
 
-    public function store(StoreArticleRequest $request)
+    //?Revisar el manejo de errores
+    //!Si funciona 
+    public function store(StoreArticleRequest $request) 
     {
         try{
             //$validatedData = $request->validated();
