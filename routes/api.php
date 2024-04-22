@@ -30,3 +30,6 @@ Route::apiResource('/reservation',ReservationController::class);
 Route::apiResource('/room',RoomController::class);
 Route::apiResource('/service',ServiceController::class);
 Route::apiResource('/service_room',ServiceRoomController::class);
+
+
+Route::post('room/update/{id}',[RoomController::class,'update']);

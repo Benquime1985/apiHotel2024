@@ -14,6 +14,7 @@ class Reservation extends Model
         'date_output',
         'Num_pers',
         'user_id',
+        'room_id',
         'state'
     ];
     

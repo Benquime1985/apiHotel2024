@@ -18,12 +18,12 @@ return new class extends Migration
             $table->foreign('serv_id')
                     ->references('id')
                     ->on('services')
-                    ->onUpd('cascade')
+                    ->onUpdate('cascade')
                     ->onDelete('restrict');
             $table->foreign('room_id')
                     ->references('id')
                     ->on('rooms')
-                    ->onUpd('cascade')
+                    ->onUpdate('cascade')
                     ->onDelete('restrict');
             $table->timestamps();
         });
