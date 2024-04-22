@@ -8,7 +8,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreArticleRequest extends FormRequest
+class UpdateArticleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,19 +28,10 @@ class StoreArticleRequest extends FormRequest
         return [
             'name' => 'required|min:3|max:64',
             'email' => 'required|unique:users|email|min:8|max:64',
-            'password' => 'required|min:4|max:64',
+            'password' => 'min:4|max:64',
             'rol_id'=>'required'
         ];
     }
-
-
-    //*Personalizacion de mensajes de error */
-    /*public function messages(){
-        return [
-            'email.min' => 'Entiende que el minimo son 8 caracteres',
-            'email.email' => 'No es un correo electrónico válido'
-        ];
-    }*/
 
     protected function failedValidation(Validator $validator)
     {

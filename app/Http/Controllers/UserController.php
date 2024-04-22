@@ -8,9 +8,12 @@ use Illuminate\Http\Request;
 use App\Http\Responses\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreArticleRequest;
+use App\Http\Requests\UpdateArticleRequest;
 use App\Http\Resources\UserCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
+use Spatie\FlareClient\Api;
 
 class UserController extends Controller
 {
@@ -46,8 +49,6 @@ class UserController extends Controller
         }
     }*/
 
-    //?Revisar el manejo de errores
-    //!Si funciona 
     public function store(StoreArticleRequest $request) 
     {
         try{
@@ -78,9 +79,40 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+     //!Revisar por que me pide a fuerzas el password 
+    /*public function update(UpdateArticleRequest $request, $id)
     {
-        //
+        try {
+            $user = User::findOrFail($id);
+            $user = User::create($request->validated());
+            $user->update($request->all());
+            return  ApiResponse::success('Se ha actualizado el usuario',200,$user);
+        } catch (ModelNotFoundException $e){
+            return ApiResponse::error($e->getMessage(),404);
+        } catch (Exception $e){
+            return ApiResponse::error($e->getMessage(),500);
+        }
+    }
+    */
+
+    public function update(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+            $request -> validate([
+                'name' => 'required|min:3|max:64',
+                'email' => ['required',Rule::unique('users')->ignore($user),'email','min:8','max:64'],
+                'password' => 'min:4|max:64',
+                'rol_id'=>'required'
+            ]);
+            $user->update($request->all());
+            return  ApiResponse::success('Se ha actualizado el usuario',200,$user);
+        } catch (ModelNotFoundException $e){
+            return ApiResponse::error($e->getMessage(),404);
+        } catch (Exception $e){
+            return ApiResponse::error($e->getMessage(),500);
+        }
     }
 
     /**
@@ -88,6 +120,12 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            $user=User::findOrFail($id);
+            $user->delete();
+            return ApiResponse::success("Usuario eliminado de manera correcta!!",200,$user);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error("No se puede encontrar al usuario a eliminar");
+        }
     }
 }

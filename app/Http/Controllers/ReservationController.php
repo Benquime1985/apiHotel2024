@@ -34,8 +34,9 @@ class ReservationController extends Controller
             $request -> validate([
                 'name' => 'required|min:3|max:45',
                 'date_arrive' => 'required',
-                'date_output' => 'required|',
+                'date_output' => 'required',
                 'Num_pers' => 'required|min:1|max:2',
+                'user_id'  => 'required',
             ]);
             $reservation = Reservation::create($request->all());
             return ApiResponse::success("Se ha creado la reservacion correctamente", 200, $reservation);
