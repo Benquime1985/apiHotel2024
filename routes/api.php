@@ -33,3 +33,4 @@ Route::apiResource('/service_room',ServiceRoomController::class);
 
 
 Route::post('room/update/{id}',[RoomController::class,'update']);
+Route::post('service/update/{id}',[ServiceController::class,'update']);

@@ -91,7 +91,6 @@ class RoomController extends Controller
                 'price'  => 'required|min:2|max:10',
                 'reserv_id' => 'required',
             ]);
-            $room = new Room;
             $room->room_numb = $request->input('room_numb');
             $room->description = $request->input('description');
             $room->price = $request->input('price');
@@ -106,7 +105,7 @@ class RoomController extends Controller
                 $file->move(public_path('uploads/'),$picture);
                 $room->image='/uploads/'.$picture;
             }
-            $room->update();
+            $room->save();
             return ApiResponse::success("Se ha actualizado la habitacion correctamente", 200, $room);
         } catch(ValidationException $e){
             return ApiResponse::error($e->getMessage(),404);

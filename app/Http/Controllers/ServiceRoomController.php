@@ -38,9 +38,9 @@ class ServiceRoomController extends Controller
     public function show($id)
     {
         try{
-            $service__room = new Service_RoomCollection(Service_Room::query()->where('id',$id)->get()); //select * from rols where id = $id;
-            if ($service__room->isEmpty()) throw new ModelNotFoundException("Servicios de la habitaccion no encontrado");
-            return ApiResponse::success( 'Información del servicios de la habitacion',200,$service__room);
+            $service__rooms = new Service_RoomCollection(Service_Room::query()->where('id',$id)->get()); //select * from rols where id = $id;
+            if ($service__rooms->isEmpty()) throw new ModelNotFoundException("Servicios de la habitaccion no encontrado");
+            return ApiResponse::success( 'Información del servicios de la habitacion',200,$service__rooms);
         }catch(ModelNotFoundException $e) {
             return ApiResponse::error( 'No existe el servcio de la habiatacion solicitado',404);
         }
