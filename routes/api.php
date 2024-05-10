@@ -38,4 +38,4 @@ Route::middleware('auth:sanctum')->group( function (){
 
 Route::post('/login',[AuthController::class,'login']);
 
-//! 1|cYs9GTVfYTygBep2PCBLSvjV6F7ndxWozd3gYpvC575b84ac token importante
+//! token importante
