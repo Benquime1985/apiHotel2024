@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\RoomController;
@@ -19,18 +20,22 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
+/*
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});*/
+
+Route::middleware('auth:sanctum')->group( function (){
+    Route::apiResource('/rol',RolController::class);
+    Route::apiResource('/user',UserController::class);
+    Route::apiResource('/reservation',ReservationController::class);
+    Route::apiResource('/room',RoomController::class);
+    Route::apiResource('/service',ServiceController::class);
+    Route::apiResource('/service_room',ServiceRoomController::class);
+    Route::post('room/update/{id}',[RoomController::class,'update']);
+    Route::post('service/update/{id}',[ServiceController::class,'update']);
 });
 
-Route::apiResource('/rol',RolController::class);
-Route::apiResource('/user',UserController::class);
-Route::apiResource('/reservation',ReservationController::class);
-Route::apiResource('/room',RoomController::class);
-Route::apiResource('/service',ServiceController::class);
-Route::apiResource('/service_room',ServiceRoomController::class);
+Route::post('/login',[AuthController::class,'login']);
 
-
-Route::post('room/update/{id}',[RoomController::class,'update']);
-Route::post('service/update/{id}',[ServiceController::class,'update']);
+//! 1|cYs9GTVfYTygBep2PCBLSvjV6F7ndxWozd3gYpvC575b84ac token importante
