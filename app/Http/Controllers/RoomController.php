@@ -33,6 +33,7 @@ class RoomController extends Controller
     {
         try{
             $request -> validate([
+                'title' => 'required|min:5|max:100',
                 'room_numb' => 'required',
                 'image' => ['nullable','image','mimes:jpeg,jpg,png,gif,svg,bmp','max:10240'],
                 'description' => 'required|min:5|max:100',
@@ -40,6 +41,7 @@ class RoomController extends Controller
                 'reserv_id' => 'required',
             ]);
             $room = new Room;
+            $room->title = $request->input('title');
             $room->room_numb = $request->input('room_numb');
             $room->description = $request->input('description');
             $room->price = $request->input('price');
@@ -85,12 +87,14 @@ class RoomController extends Controller
         try{
             $room = Room::findOrFail($id);
             $request -> validate([
+                'title' => 'required|min:5|max:100',
                 'room_numb' => 'required',
                 'image' => ['nullable','image','mimes:jpeg,jpg,png,gif,svg,bmp','max:10240'],
                 'description' => 'required|min:5|max:100',
                 'price'  => 'required|min:2|max:10',
                 'reserv_id' => 'required',
             ]);
+            $room->title = $request->input('title');
             $room->room_numb = $request->input('room_numb');
             $room->description = $request->input('description');
             $room->price = $request->input('price');

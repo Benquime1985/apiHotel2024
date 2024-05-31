@@ -27,14 +27,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group( function (){
     Route::apiResource('/rol',RolController::class);
-    Route::apiResource('/user',UserController::class);
     Route::apiResource('/reservation',ReservationController::class);
-    Route::apiResource('/room',RoomController::class);
+    
     Route::apiResource('/service',ServiceController::class);
     Route::apiResource('/service_room',ServiceRoomController::class);
     Route::post('room/update/{id}',[RoomController::class,'update']);
     Route::post('service/update/{id}',[ServiceController::class,'update']);
 });
+
+Route::apiResource('/room',RoomController::class);
+Route::apiResource('/user',UserController::class);
+
 
 Route::post('/login',[AuthController::class,'login']);
 
